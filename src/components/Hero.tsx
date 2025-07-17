@@ -212,10 +212,9 @@ const Hero: React.FC<HeroProps> = ({ darkMode }) => {
           animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          A passionate 16‑year‑old IBDP student with exceptional academic achievements,
+          I am a 16‑year‑old IBDP student with exceptional academic achievements,
           chess mastery, and a drive to make a difference through technology and
-          community service. Currently pursuing Math AA HL, Physics HL, and Chemistry HL
-          with a 95%+ academic average.
+          community service.
         </motion.p>
       </div>
     </section>

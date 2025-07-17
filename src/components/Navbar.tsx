@@ -19,7 +19,7 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
 
   return (
     <motion.nav 
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed top-0 w-full z-[0] transition-all duration-300 ${
         darkMode 
           ? 'bg-gray-900/95 backdrop-blur-sm border-b border-gray-800' 
           : 'bg-white/95 backdrop-blur-sm border-b border-gray-200'
