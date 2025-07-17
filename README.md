@@ -1,46 +1,149 @@
-# Getting Started with Create React App
+# Bryan Zhou - Portfolio Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A stunning, modern portfolio website showcasing Bryan Zhou's achievements, skills, activities, and creative work. Built with React, TypeScript, Tailwind CSS, and Framer Motion.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+- **Dark/Light Mode Toggle** - Seamless theme switching
+- **Smooth Animations** - Powered by Framer Motion
+- **Responsive Design** - Works perfectly on all devices
+- **Interactive Elements** - Hover effects and scroll-triggered animations
+- **Modern UI/UX** - Clean, professional design with blue/purple accent colors
 
-### `npm start`
+## 📋 Sections
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 🏠 Home
+- Hero section with animated background
+- Key achievements showcase
+- Smooth scroll navigation
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 🏆 Achievements
+- Academic excellence (95%+ average)
+- AP exam scores (Calculus AB: 5, Physics 1: 5, etc.)
+- Math competition wins (Gauss, Pascal, Cayley)
+- Chess achievements (Lichess 2200, CFC 1500)
+- Computer science competitions (ACSL Finalist)
 
-### `npm test`
+### 💻 Skills
+- Programming & Development (React, HTML/CSS, Python)
+- Data Analysis (NumPy, Pandas)
+- Art & Media (Digital Art, Video Editing, Animation)
+- Physics & Lab (PASCAL devices, Logger Pro)
+- Music (Piano, Music Theory)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 🎯 Activities
+- **VSBA Co-founder** - Raised $10,000+ for Peace Arch Hospital
+- **SATDuel Development** - Frontend design and marketing
+- **Chess Master** - Competitive player with high ratings
+- **Varsity Sports** - Soccer and Badminton teams
+- **Adventure Sports** - Skiing and rock climbing
 
-### `npm run build`
+### 🎨 Art & Media
+- Digital art and promotional graphics
+- Traditional paintings and sketches
+- Video production and editing
+- Animation and sound design
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🛠️ Technology Stack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Frontend**: React 19.1.0
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Animations**: Framer Motion
+- **Icons**: Emoji and custom icons
+- **Images**: Unsplash placeholders (replace with actual content)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 📦 Installation
 
-### `npm run eject`
+1. Clone the repository:
+```bash
+git clone <repository-url>
+cd bryan-zhou-portfolio
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+2. Install dependencies:
+```bash
+npm install
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Start the development server:
+```bash
+npm start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+4. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 🎨 Customization
 
-## Learn More
+### Adding Real Images
+Replace placeholder images in `src/components/ArtMedia.tsx` with actual artwork and project screenshots.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Updating Content
+- Modify component data in each section file
+- Update achievements, skills, and activities as needed
+- Add new sections by creating new components
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Styling
+- Colors are defined in Tailwind classes
+- Dark/light mode colors are in each component
+- Animations can be adjusted in Framer Motion configurations
+
+## 📱 Responsive Design
+
+The website is fully responsive and optimized for:
+- Desktop (1200px+)
+- Tablet (768px - 1199px)
+- Mobile (320px - 767px)
+
+## 🎯 Key Features
+
+### Performance
+- Lazy loading with Intersection Observer
+- Optimized animations
+- Smooth scrolling navigation
+
+### Accessibility
+- Semantic HTML structure
+- Keyboard navigation support
+- Screen reader friendly
+
+### SEO Ready
+- Meta tags ready for optimization
+- Semantic markup
+- Fast loading times
+
+## 📊 Project Structure
+
+```
+src/
+├── components/
+│   ├── Navbar.tsx          # Navigation with dark mode toggle
+│   ├── Hero.tsx            # Landing section
+│   ├── Achievements.tsx    # Academic and competition wins
+│   ├── Skills.tsx          # Skills with progress bars
+│   ├── Activities.tsx      # Projects and activities
+│   └── ArtMedia.tsx        # Creative work gallery
+├── App.tsx                 # Main app component
+├── App.css                 # Custom styles
+└── index.css               # Tailwind directives
+```
+
+## 🚀 Deployment
+
+The app is ready for deployment on platforms like:
+- Vercel
+- Netlify
+- GitHub Pages
+- AWS S3
+
+## 📝 License
+
+This project is created for Bryan Zhou's personal portfolio. All rights reserved.
+
+## 🤝 Contributing
+
+This is a personal portfolio project. For any suggestions or improvements, please contact Bryan Zhou.
+
+---
+
+**Built with ❤️ using React, TypeScript, Tailwind CSS, and Framer Motion**
