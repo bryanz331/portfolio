@@ -1,17 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&family=Pacifico&display=swap');
+@import '@fontsource/raleway/400.css';
+@import '@fontsource/raleway/700.css';
+@import '@fontsource/pacifico';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Raleway', Arial, sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.dark body {
+  background: linear-gradient(135deg, #181c2f 0%, #2d225a 100%);
+}
+
+h1, h2, h3, .artistic-heading {
+  font-family: 'Pacifico', cursive;
+  letter-spacing: 1px;
+}
+
+/* Artistic brushstroke accent */
+.brush-accent {
+  background: url('https://www.transparenttextures.com/patterns/brush-strokes.png');
+  background-size: cover;
+  background-repeat: repeat-x;
+  height: 18px;
+  width: 100%;
+  display: block;
+  opacity: 0.25;
+  margin-top: -10px;
+  margin-bottom: 20px;
+}
+
+/* Artistic card shadow */
+.artistic-shadow {
+  box-shadow: 0 4px 24px 0 rgba(80, 60, 180, 0.12), 0 1.5px 6px 0 rgba(80, 60, 180, 0.10);
 }

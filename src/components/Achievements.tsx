@@ -156,6 +156,30 @@ const Achievements: React.FC<AchievementsProps> = ({ darkMode }) => {
     return allAchievements.filter(achievement => achievement.categories.includes(selectedCategory));
   };
 
+  // Helper for pastel backgrounds by category
+  const pastelBg = (category: string) => {
+    if (darkMode) return 'bg-gray-900/80';
+    switch (category) {
+      case 'Academic Excellence': return 'bg-blue-50';
+      case 'Advanced Placement': return 'bg-cyan-50';
+      case 'Mathematics': return 'bg-purple-50';
+      case 'Computer Science': return 'bg-pink-50';
+      case 'Chess': return 'bg-yellow-50';
+      default: return 'bg-white';
+    }
+  };
+  const pastelTag = (category: string) => {
+    if (darkMode) return 'bg-gray-700 text-gray-200';
+    switch (category) {
+      case 'Academic Excellence': return 'bg-blue-100 text-blue-700';
+      case 'Advanced Placement': return 'bg-cyan-100 text-cyan-700';
+      case 'Mathematics': return 'bg-purple-100 text-purple-700';
+      case 'Computer Science': return 'bg-pink-100 text-pink-700';
+      case 'Chess': return 'bg-yellow-100 text-yellow-800';
+      default: return 'bg-gray-100 text-gray-700';
+    }
+  };
+
   return (
     <section 
       id="achievements"
@@ -221,15 +245,12 @@ const Achievements: React.FC<AchievementsProps> = ({ darkMode }) => {
           {getFilteredAchievements().map((achievement, index) => (
             <motion.div
               key={`${achievement.title}-${index}`}
-              className={`p-6 rounded-xl border transition-all duration-300 hover:scale-105 ${
-                darkMode 
-                  ? 'bg-gray-800/50 border-gray-700 hover:border-blue-500' 
-                  : 'bg-white border-gray-200 hover:border-blue-500'
-              }`}
-              whileHover={{ y: -5 }}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className={`p-6 rounded-xl border artistic-shadow transition-all duration-300 mb-4 ${pastelBg(achievement.categories[0])}`}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -60 : 60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, delay: index * 0.08, type: 'spring', bounce: 0.18 }}
+              style={{ fontFamily: 'Raleway, Arial, sans-serif', color: darkMode ? undefined : '#222' }}
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="text-3xl">{achievement.icon}</div>
@@ -242,12 +263,12 @@ const Achievements: React.FC<AchievementsProps> = ({ darkMode }) => {
               
               <h3 className={`text-xl font-bold mb-2 ${
                 darkMode ? 'text-white' : 'text-gray-900'
-              }`}>
+              }`} style={{ fontFamily: 'Raleway, Arial, sans-serif', letterSpacing: '0.5px' }}>
                 {achievement.title}
               </h3>
               
               <p className={`text-sm mb-3 ${
-                darkMode ? 'text-gray-300' : 'text-gray-600'
+                darkMode ? 'text-gray-300' : 'text-gray-700'
               }`}>
                 {achievement.description}
               </p>
@@ -256,9 +277,7 @@ const Achievements: React.FC<AchievementsProps> = ({ darkMode }) => {
                 {achievement.categories.map((cat: string, i: number) => (
                   <span
                     key={cat + i}
-                    className={`inline-block text-xs font-medium px-2 py-1 rounded ${
-                      darkMode ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-600'
-                    }`}
+                    className={`inline-block text-xs font-medium px-2 py-1 rounded ${pastelTag(cat)}`}
                   >
                     {cat}
                   </span>

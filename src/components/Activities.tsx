@@ -90,15 +90,28 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
     }
   ];
 
-  const getColorClasses = (color: string) => {
-    const colors = {
-      blue: darkMode ? 'border-blue-500 bg-blue-600/10' : 'border-blue-500 bg-blue-50',
-      purple: darkMode ? 'border-purple-500 bg-purple-600/10' : 'border-purple-500 bg-purple-50',
-      green: darkMode ? 'border-green-500 bg-green-600/10' : 'border-green-500 bg-green-50',
-      yellow: darkMode ? 'border-yellow-500 bg-yellow-600/10' : 'border-yellow-500 bg-yellow-50',
-      red: darkMode ? 'border-red-500 bg-red-600/10' : 'border-red-500 bg-red-50'
-    };
-    return colors[color as keyof typeof colors] || colors.blue;
+  // Helper for pastel backgrounds by activity color
+  const pastelBg = (color: string) => {
+    if (darkMode) return 'bg-gray-900/80';
+    switch (color) {
+      case 'blue': return 'bg-blue-50';
+      case 'purple': return 'bg-purple-50';
+      case 'green': return 'bg-green-50';
+      case 'yellow': return 'bg-yellow-50';
+      case 'red': return 'bg-pink-50';
+      default: return 'bg-white';
+    }
+  };
+  const pastelTag = (color: string) => {
+    if (darkMode) return 'bg-gray-700 text-gray-200';
+    switch (color) {
+      case 'blue': return 'bg-blue-100 text-blue-700';
+      case 'purple': return 'bg-purple-100 text-purple-700';
+      case 'green': return 'bg-green-100 text-green-700';
+      case 'yellow': return 'bg-yellow-100 text-yellow-800';
+      case 'red': return 'bg-pink-100 text-pink-700';
+      default: return 'bg-gray-100 text-gray-700';
+    }
   };
 
   return (
@@ -131,11 +144,12 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
           {activities.map((activity, index) => (
             <motion.div
               key={activity.title}
-              className={`p-8 rounded-2xl border-2 ${getColorClasses(activity.color)}`}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: index * 0.2 }}
-              whileHover={{ scale: 1.02 }}
+              className={`p-8 rounded-2xl border-2 artistic-shadow mb-8 ${pastelBg(activity.color)}`}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -60 : 60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, delay: index * 0.09, type: 'spring', bounce: 0.18 }}
+              style={{ fontFamily: 'Raleway, Arial, sans-serif', color: darkMode ? undefined : '#222' }}
             >
               <div className="flex flex-col lg:flex-row lg:items-start gap-6">
                 {/* Icon and Header */}
@@ -144,13 +158,11 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
                   <div className="flex-1">
                     <h3 className={`text-2xl font-bold mb-2 ${
                       darkMode ? 'text-white' : 'text-gray-900'
-                    }`}>
+                    }`} style={{ fontFamily: 'Raleway, Arial, sans-serif', letterSpacing: '0.5px' }}>
                       {activity.title}
                     </h3>
                     <div className="flex flex-wrap items-center gap-4 mb-3">
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        darkMode ? 'bg-blue-600/20 text-blue-400' : 'bg-blue-100 text-blue-700'
-                      }`}>
+                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${pastelTag(activity.color)}`}>
                         {activity.role}
                       </span>
                       <span className={`px-3 py-1 rounded-full text-sm font-medium ${
@@ -165,7 +177,7 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
 
               {/* Description */}
               <p className={`text-lg mb-6 leading-relaxed ${
-                darkMode ? 'text-gray-300' : 'text-gray-600'
+                darkMode ? 'text-gray-300' : 'text-gray-700'
               }`}>
                 {activity.description}
               </p>
@@ -176,7 +188,7 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
                 <div>
                   <h4 className={`text-lg font-semibold mb-3 ${
                     darkMode ? 'text-white' : 'text-gray-900'
-                  }`}>
+                  }`} style={{ fontFamily: 'Raleway, Arial, sans-serif' }}>
                     Key Achievements
                   </h4>
                   <ul className="space-y-2">
@@ -184,11 +196,13 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
                       <motion.li
                         key={achievementIndex}
                         className={`flex items-start space-x-2 ${
-                          darkMode ? 'text-gray-300' : 'text-gray-600'
+                          darkMode ? 'text-gray-300' : 'text-gray-700'
                         }`}
                         initial={{ opacity: 0, x: -20 }}
-                        animate={inView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.5, delay: index * 0.2 + achievementIndex * 0.1 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, amount: 0.3 }}
+                        transition={{ duration: 0.5, delay: index * 0.09 + achievementIndex * 0.04 }}
+                        style={{ fontFamily: 'Raleway, Arial, sans-serif' }}
                       >
                         <span className="text-blue-500 mt-1">•</span>
                         <span>{achievement}</span>
@@ -201,22 +215,19 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
                 <div>
                   <h4 className={`text-lg font-semibold mb-3 ${
                     darkMode ? 'text-white' : 'text-gray-900'
-                  }`}>
+                  }`} style={{ fontFamily: 'Raleway, Arial, sans-serif' }}>
                     Skills Developed
                   </h4>
                   <div className="flex flex-wrap gap-2">
                     {activity.skills.map((skill, skillIndex) => (
                       <motion.span
                         key={skillIndex}
-                        className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          darkMode 
-                            ? 'bg-gray-700 text-gray-300 hover:bg-blue-600' 
-                            : 'bg-gray-100 text-gray-700 hover:bg-blue-100'
-                        } transition-all duration-300`}
-                        whileHover={{ scale: 1.05 }}
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${pastelTag(activity.color)} transition-all duration-300`}
                         initial={{ opacity: 0, y: 20 }}
-                        animate={inView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.5, delay: index * 0.2 + skillIndex * 0.05 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.3 }}
+                        transition={{ duration: 0.5, delay: index * 0.09 + skillIndex * 0.03 }}
+                        style={{ fontFamily: 'Raleway, Arial, sans-serif' }}
                       >
                         {skill}
                       </motion.span>

@@ -1,180 +1,225 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef, useEffect, useState } from 'react';
+import { motion, useMotionValue, useTransform, MotionValue } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+
+const placeholderPhoto = 'https://randomuser.me/api/portraits/men/32.jpg';
+const placeholderQuote = '“Creativity is intelligence having fun.” — Albert Einstein';
+
+// Clip‑paths for geometric shapes
+const CLIP_PATHS: Record<string, string> = {
+  circle:   'circle(50% at 50% 50%)',
+  square:   'inset(0%)',
+  triangle: 'polygon(50% 0%, 0% 100%, 100% 100%)',
+  diamond:  'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',
+  hexagon:  'polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)',
+};
+
+interface ShapeDef {
+  type: keyof typeof CLIP_PATHS;
+  color: string;
+  left: string;            // percentage
+  top: string;             // percentage
+  size: number;            // px
+  floatRange: [number,number];
+  delay: number;
+  duration: number;
+  isMain: boolean;
+}
+
+const mainShapes: Omit<ShapeDef,'isMain'>[] = [
+  { type: 'circle',   color: 'from-purple-500 to-pink-500',   left: '8%',  top: '12%', size: 100, floatRange: [-20,20], delay: 0.1, duration: 6 },
+  { type: 'diamond',  color: 'from-blue-500 to-teal-400',     left: '82%', top: '15%', size: 120, floatRange: [-18,18], delay: 0.2, duration: 5.5 },
+  { type: 'triangle', color: 'from-pink-500 to-yellow-300',   left: '10%', top: '72%', size:  90, floatRange: [-16,16], delay: 0.3, duration: 6.2 },
+  { type: 'hexagon',  color: 'from-indigo-500 to-purple-400', left: '80%', top: '75%', size: 100, floatRange: [-14,14], delay: 0.4, duration: 5.8 },
+  { type: 'circle',   color: 'from-yellow-400 to-orange-400', left: '50%', top: '90%', size: 130, floatRange: [-22,22], delay: 0.5, duration: 6.5 },
+];
+
+const fillerShapes: Omit<ShapeDef,'isMain'>[] = [
+  { type: 'square',   color: 'from-green-300 to-green-500',   left: '5%',  top: '50%', size:  60, floatRange: [-10,10], delay: 0.2, duration: 4.5 },
+  { type: 'circle',   color: 'from-cyan-400 to-cyan-600',     left: '20%', top: '10%', size:  50, floatRange: [-12,12], delay: 0.3, duration: 5.2 },
+  { type: 'triangle', color: 'from-pink-400 to-pink-600',     left: '30%', top: '80%', size:  70, floatRange: [-14,14], delay: 0.15, duration: 4.8 },
+  { type: 'diamond',  color: 'from-yellow-300 to-yellow-500', left: '90%', top: '20%', size:  55, floatRange: [-11,11], delay: 0.25, duration: 5.0 },
+  { type: 'hexagon',  color: 'from-purple-400 to-purple-600', left: '85%', top: '75%', size:  65, floatRange: [-13,13], delay: 0.18, duration: 4.7 },
+  { type: 'square',   color: 'from-orange-300 to-orange-500', left: '50%', top: '5%',  size:  80, floatRange: [-15,15], delay: 0.22, duration: 5.3 },
+  { type: 'circle',   color: 'from-red-400 to-red-600',       left: '75%', top: '50%', size:  45, floatRange: [-12,12], delay: 0.12, duration: 4.9 },
+  { type: 'diamond',  color: 'from-blue-300 to-blue-500',     left: '25%', top: '60%', size:  50, floatRange: [-10,10], delay: 0.28, duration: 5.1 },
+];
+
+const allShapes: ShapeDef[] = [
+  ...mainShapes.map(s => ({ ...s, isMain: true })),
+  ...fillerShapes.map(s => ({ ...s, isMain: false })),
+];
+
+interface InteractiveShapeProps {
+  shape: ShapeDef;
+  pointerX: MotionValue<number>;
+  pointerY: MotionValue<number>;
+  inView: boolean;
+}
+
+const InteractiveShape: React.FC<InteractiveShapeProps> = ({ shape, pointerX, pointerY, inView }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [center, setCenter] = useState({ x: 0, y: 0 });
+
+  // Measure element center on mount & resize
+  useEffect(() => {
+    const update = () => {
+      if (ref.current) {
+        const rect = ref.current.getBoundingClientRect();
+        setCenter({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+      }
+    };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
+  // Proximity‑based scale (1 → 1.3 within 200px)
+  const scale = useTransform(
+    [pointerX, pointerY],
+    (input: number[]) => {
+      const[px, py] = input;
+      const dx = px - center.x;
+      const dy = py - center.y;
+      const dist = Math.hypot(dx, dy);
+      const R = 200;
+      const ratio = Math.max(0, Math.min(1, (R - dist) / R));
+      return 1 + ratio * 0.3;
+    }
+  );
+
+  return (
+    <motion.div
+      ref={ref}
+      className={`absolute bg-gradient-to-br ${shape.color}`}
+      style={{
+        left:       shape.left,
+        top:        shape.top,
+        width:      shape.size,
+        height:     shape.size,
+        clipPath:   CLIP_PATHS[shape.type],
+        pointerEvents: 'none',
+        transform:  'translate(-50%, -50%)',
+        zIndex:     shape.isMain ? 60 : 50,
+        scale,
+      }}
+      initial={{ opacity: shape.isMain ? 1 : 0.6 }}
+      animate={
+        inView
+          ? { y: [shape.floatRange[0], shape.floatRange[1], shape.floatRange[0]] }
+          : {}
+      }
+      transition={{
+        delay:      shape.delay,
+        duration:   shape.duration,
+        repeat:     Infinity,
+        repeatType: 'reverse',
+        ease:       'easeInOut',
+      }}
+    />
+  );
+};
 
 interface HeroProps {
   darkMode: boolean;
 }
 
 const Hero: React.FC<HeroProps> = ({ darkMode }) => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+  const heroRef = useRef<HTMLElement | null>(null);
 
-  const achievements = [
-    { icon: '🏆', text: 'Exceptional Scholar (95%+ Average)' },
-    { icon: '♟️', text: 'Lichess 2200 Rating' },
-    { icon: '💻', text: 'ACSL Finalist' },
-    { icon: '🏥', text: 'VSBA Co-founder' },
-  ];
+  // track pointer globally
+  const pointerX = useMotionValue(-10000);
+  const pointerY = useMotionValue(-10000);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    pointerX.set(e.clientX);
+    pointerY.set(e.clientY);
+  };
+  const handleMouseLeave = () => {
+    pointerX.set(-10000);
+    pointerY.set(-10000);
+  };
 
   return (
-    <section 
+    <section
       id="home"
-      className={`min-h-screen flex items-center justify-center relative overflow-hidden ${
-        darkMode ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'
-      }`}
+      ref={(node) => { heroRef.current = node; ref(node as any); }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={`
+        w-full min-h-screen relative overflow-hidden select-none flex items-center justify-center
+        ${darkMode
+          ? 'bg-gradient-to-br from-[#181c2f] to-[#2d225a]'
+          : 'bg-gradient-to-br from-[#f8fafc] to-[#e0e7ff]'}
+      `}
     >
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className={`absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl opacity-20 ${
-            darkMode ? 'bg-blue-600' : 'bg-blue-400'
-          }`}
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 180, 360],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear"
-          }}
+      {/* animated shapes */}
+      {allShapes.map((shape, i) => (
+        <InteractiveShape
+          key={i}
+          shape={shape}
+          pointerX={pointerX}
+          pointerY={pointerY}
+          inView={inView}
         />
-        <motion.div
-          className={`absolute -bottom-40 -left-40 w-80 h-80 rounded-full blur-3xl opacity-20 ${
-            darkMode ? 'bg-purple-600' : 'bg-purple-400'
-          }`}
-          animate={{
-            scale: [1.2, 1, 1.2],
-            rotate: [360, 180, 0],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-        />
-      </div>
+      ))}
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      {/* center content */}
+      <div
+        className="relative z-[70] w-full max-w-3xl px-4 sm:px-6 lg:px-8 text-center"
+        style={{ pointerEvents: 'auto' }}
+      >
         <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          className="w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-blue-400 shadow-lg mb-6 bg-white/80 dark:bg-gray-900/80"
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={inView ? { scale: 1, opacity: 1 } : {}}
           transition={{ duration: 0.8 }}
         >
-          {/* Main Title */}
-          <motion.h1 
-            className="text-5xl md:text-7xl font-bold mb-6"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={inView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <span className={`${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
-              Bryan Zhou
-            </span>
-          </motion.h1>
-
-          {/* Subtitle */}
-          <motion.p 
-            className="text-xl md:text-2xl mb-8 text-gray-400 max-w-3xl mx-auto"
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            IBDP Student • Chess Master • Tech Enthusiast • Artist
-          </motion.p>
-
-          {/* Bio */}
-          <motion.p 
-            className={`text-lg mb-12 max-w-4xl mx-auto leading-relaxed ${
-              darkMode ? 'text-gray-300' : 'text-gray-600'
-            }`}
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
-            A passionate 16-year-old IBDP student with exceptional academic achievements, 
-            chess mastery, and a drive to make a difference through technology and community service. 
-            Currently pursuing Math AA HL, Physics HL, and Chemistry HL with a 95%+ academic average.
-          </motion.p>
-
-          {/* Achievement Cards */}
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-16"
-            initial={{ opacity: 0, y: 30 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            {achievements.map((achievement, index) => (
-              <motion.div
-                key={index}
-                className={`p-6 rounded-xl backdrop-blur-sm border ${
-                  darkMode 
-                    ? 'bg-gray-800/50 border-gray-700 hover:border-blue-500' 
-                    : 'bg-white/50 border-gray-200 hover:border-blue-500'
-                } transition-all duration-300 hover:scale-105`}
-                whileHover={{ y: -5 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 1 + index * 0.1 }}
-              >
-                <div className="text-3xl mb-3">{achievement.icon}</div>
-                <p className={`text-sm font-medium ${
-                  darkMode ? 'text-gray-300' : 'text-gray-700'
-                }`}>
-                  {achievement.text}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* CTA Button */}
-          <motion.div
-            className="mt-12"
-            initial={{ opacity: 0 }}
-            animate={inView ? { opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 1.4 }}
-          >
-            <motion.a
-              href="#achievements"
-              className={`inline-flex items-center px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 ${
-                darkMode
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/25'
-                  : 'bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/25'
-              }`}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Explore My Journey
-              <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </motion.a>
-          </motion.div>
-        </motion.div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-      >
-        <div className={`w-6 h-10 border-2 rounded-full flex justify-center ${
-          darkMode ? 'border-gray-400' : 'border-gray-600'
-        }`}>
-          <motion.div
-            className="w-1 h-3 bg-gray-400 rounded-full mt-2"
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
+          <img
+            src={placeholderPhoto}
+            alt="Bryan Zhou"
+            className="w-full h-full object-cover"
           />
-        </div>
-      </motion.div>
+        </motion.div>
+
+        <motion.h1
+          className="text-5xl md:text-7xl font-bold artistic-heading mb-8 text-blue-700 dark:text-blue-300"
+          style={{ fontFamily: 'Pacifico, cursive' }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          Bryan Zhou
+        </motion.h1>
+
+        <motion.blockquote
+          className="italic text-xl md:text-2xl text-purple-700 dark:text-purple-300 mb-8"
+          style={{ fontFamily: 'Raleway, Arial, sans-serif' }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.4 }}
+        >
+          {placeholderQuote}
+        </motion.blockquote>
+
+        <motion.p
+          className={`text-lg mb-10 mx-auto leading-relaxed ${
+            darkMode ? 'text-gray-300' : 'text-gray-700'
+          }`}
+          style={{ fontFamily: 'Raleway, Arial, sans-serif' }}
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          A passionate 16‑year‑old IBDP student with exceptional academic achievements,
+          chess mastery, and a drive to make a difference through technology and
+          community service. Currently pursuing Math AA HL, Physics HL, and Chemistry HL
+          with a 95%+ academic average.
+        </motion.p>
+      </div>
     </section>
   );
 };
 
-export default Hero; 
+export default Hero;
