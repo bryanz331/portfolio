@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import htmlLogo from '../images/html-logo.png';
-import cssLogo from '../images/html-logo.png'; // Use same as HTML for now
 import jsLogo from '../images/javascript-logo.png';
 import reactLogo from '../images/React-Logo.png';
 import pythonLogo from '../images/python-logo.png';
