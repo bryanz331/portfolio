@@ -17,10 +17,10 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
       title: "Vancouver Student Business Association (VSBA)",
       role: "Co-founder & Financial Director",
       period: "2023 - Present",
-      description: "Co-founded a non-profit organization that has raised over $10,000 for Peace Arch Hospital. Responsible for organizing volunteers, managing finances, and creating promotional content.",
+      description: "Co-founded a non-profit organization - a student-led organization dedicated to connecting youth with their local community through entrepreneurship and service. Since creation, it has raised over $10,000 for Peace Arch Hospital, a cause that means a lot to our orginazation. Responsible for organizing volunteers, managing finances, and creating promotional content.",
       achievements: [
         "Raised $10,000+ for local hospital",
-        "Organized 4 annual events",
+        "Organized 2 annual events for 2 consecutive years",
         "Managed volunteer coordination",
         "Created promotional graphics and social media content"
       ],
@@ -32,7 +32,7 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
       title: "SATDuel Development",
       role: "Frontend Developer & Marketing",
       period: "2023 - Present",
-      description: "Participated in the development and advertisement of SATDuel, a competitive SAT preparation platform. Designed frontend pages and managed marketing campaigns.",
+      description: "Participated in the development and advertisement of SATDuel, a competitive SAT preparation platform designed to help students improve through gamified activities. Contributed to the design and implementation of user-friendly frontend pages using tools such as HTML, CSS, and Figma, focusing on clean layouts and engaging user experience. ",
       achievements: [
         "Designed frontend user interface",
         "Managed Instagram marketing campaigns",
@@ -47,7 +47,7 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
       title: "Chess Master",
       role: "Competitive Player",
       period: "Ongoing",
-      description: "Achieved high ratings across multiple platforms and qualified for prestigious tournaments. Demonstrates strategic thinking and competitive excellence.",
+      description: "Extremely passionate about chess with years of experience. Achieved high ratings across multiple platforms such as Chess.com and Lichess, consistently ranking among the top players in regional age categories. Qualified for and competed in several prestigious tournaments, both online and in person, showcasing the ability to perform under immense pressure. Demonstrates strategic thinking and competitive excellence.",
       achievements: [
         "Lichess 2200 rating (Bullet & Rapid)",
         "CFC 1500 rating",
@@ -62,7 +62,7 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
       title: "Varsity Sports",
       role: "Team Member",
       period: "2023 - 2024",
-      description: "Active member of school varsity teams, demonstrating athleticism, teamwork, and commitment to physical excellence.",
+      description: "Active member of school varsity teams, building discipline with consistent practices. Demonstrating athleticism, teamwork, leadership skills and commitment to physical excellence.",
       achievements: [
         "Varsity Soccer Team Member",
         "Varsity Badminton Team Member",
@@ -77,7 +77,7 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
       title: "Personal Fitness & Adventure",
       role: "Enthusiast",
       period: "Ongoing",
-      description: "Maintains consistent personal fitness training and pursues adventure sports, showing dedication to physical and mental well-being.",
+      description: "Maintains a consistent personal fitness routine focused on strength, endurance, and overall wellness, reflecting a strong commitment to physical and mental health. Actively envolved in adventure sports such as hiking, biking, and skiing, overcoeme challenges that require discipline, resilience, and adaptability.",
       achievements: [
         "Consistent personal fitness training",
         "Passionate skier and rock climber",

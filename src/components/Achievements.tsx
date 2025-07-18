@@ -18,7 +18,7 @@ const Achievements: React.FC<AchievementsProps> = ({ darkMode }) => {
     {
       title: "Exceptional Scholar",
       description: "Awarded for achieving 95%+ average in all courses",
-      year: "2024",
+      year: "2025",
       icon: "🏆",
       categories: ["Academic Excellence"]
     }
@@ -35,14 +35,14 @@ const Achievements: React.FC<AchievementsProps> = ({ darkMode }) => {
     {
       title: "AP Physics 1",
       description: "Scored 5/5 - Highest possible score",
-      year: "2024",
+      year: "2025",
       icon: "⚡",
       categories: ["Advanced Placement"]
     },
     {
       title: "AP Physics 2",
       description: "Scored 4/5 - Excellent performance",
-      year: "2024",
+      year: "2025",
       icon: "🔬",
       categories: ["Advanced Placement"]
     },
@@ -59,7 +59,7 @@ const Achievements: React.FC<AchievementsProps> = ({ darkMode }) => {
     {
       title: "Gauss Math Contest",
       description: "School winner & Honor Roll - Top 10% in Canada",
-      year: "2024",
+      year: "2023",
       icon: "🧮",
       categories: ["Mathematics"]
     },
@@ -73,7 +73,7 @@ const Achievements: React.FC<AchievementsProps> = ({ darkMode }) => {
     {
       title: "Cayley Math Contest",
       description: "School winner & Honor Roll - Top 10% in Canada",
-      year: "2024",
+      year: "2025",
       icon: "🔢",
       categories: ["Mathematics"]
     },
@@ -100,21 +100,21 @@ const Achievements: React.FC<AchievementsProps> = ({ darkMode }) => {
     {
       title: "Lichess Rating",
       description: "2200 rating in Bullet and Rapid formats",
-      year: "2024",
+      year: "2025",
       icon: "♟️",
       categories: ["Chess"]
     },
     {
       title: "CFC Rating",
       description: "1500 rating in Canadian Chess Federation",
-      year: "2024",
+      year: "2025",
       icon: "🏆",
       categories: ["Chess"]
     },
     {
       title: "Canadian Youth Chess Championship",
       description: "Qualified for prestigious national tournament",
-      year: "2024",
+      year: "2025",
       icon: "👑",
       categories: ["Chess"]
     }
