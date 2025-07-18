@@ -1,8 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useMotionValue, useTransform, MotionValue } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
+import bryanImage from '../images/bryan-image2.jpg';
 
-const placeholderPhoto = 'https://randomuser.me/api/portraits/men/32.jpg';
+const placeholderPhoto = bryanImage;
 const placeholderQuote = '“Creativity is intelligence having fun.” — Albert Einstein';
 
 // Clip‑paths for geometric shapes
@@ -178,8 +179,9 @@ const Hero: React.FC<HeroProps> = ({ darkMode }) => {
         >
           <img
             src={placeholderPhoto}
-            alt="Bryan Zhou"
-            className="w-full h-full object-cover"
+            alt="Bryan Zhou profile"
+            className="w-full h-full object-cover object-top"
+            style={{ objectFit: 'cover', objectPosition: 'top center', width: '100%', height: '100%' }}
           />
         </motion.div>
 
