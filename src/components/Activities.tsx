@@ -177,7 +177,7 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
             return (
               <motion.div
                 key={activity.title}
-                className={`p-10 rounded-3xl border-2 artistic-shadow mb-12 ${pastelBg(activity.color)}`}
+                className={`p-10 rounded-3xl border-2 artistic-shadow mb-12 ${pastelBg(activity.color)} text-left`}
                 style={{ fontFamily: 'Raleway, Arial, sans-serif', color: darkMode ? undefined : '#222' }}
                 initial={{ opacity: 0, x: -80 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -186,7 +186,7 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
               >
                 <div className="flex flex-col gap-10 items-start">
                   {/* VSBA Text Content */}
-                  <div className="w-full max-w-3xl mx-auto text-left">
+                  <div className="w-full max-w-3xl text-left">
                     <div className="flex items-center gap-4 mb-3 text-left">
                       <div className="text-5xl">{activity.icon}</div>
                       <h3 className="text-3xl font-extrabold text-blue-700 dark:text-blue-200" style={{ fontFamily: 'Raleway, Arial, sans-serif', letterSpacing: '0.5px', textAlign: 'left' }}>{activity.title}</h3>
@@ -239,6 +239,60 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
                     ))}
                   </div>
                 </div>
+                <motion.div
+                  className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.8, delay: 1.2 }}
+                >
+                  <div className={`text-center p-6 rounded-xl border ${
+                    darkMode ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-gray-200'
+                  }`}>
+                    <div className={`text-4xl font-bold mb-2 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                      $10,000+
+                    </div>
+                    <div className={`text-lg font-semibold mb-2 ${
+                      darkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      Raised for Charity
+                    </div>
+                    <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      Through VSBA initiatives
+                    </div>
+                  </div>
+
+                  <div className={`text-center p-6 rounded-xl border ${
+                    darkMode ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-gray-200'
+                  }`}>
+                    <div className={`text-4xl font-bold mb-2 ${darkMode ? 'text-purple-400' : 'text-purple-600'}`}>
+                      100+
+                    </div>
+                    <div className={`text-lg font-semibold mb-2 ${
+                      darkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      Volunteers
+                    </div>
+                    <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      Participated in VSBA events
+                    </div>
+                  </div>
+
+                  <div className={`text-center p-6 rounded-xl border ${
+                    darkMode ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-gray-200'
+                  }`}>
+                    <div className={`text-4xl font-bold mb-2 ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
+                      4
+                    </div>
+                    <div className={`text-lg font-semibold mb-2 ${
+                      darkMode ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      Annual Events
+                    </div>
+                    <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                      Organized through VSBA
+                    </div>
+                  </div>
+                </motion.div>
               </motion.div>
             );
           }
@@ -315,60 +369,7 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
         })}
 
         {/* Impact Stats */}
-        <motion.div
-          className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.2 }}
-        >
-          <div className={`text-center p-6 rounded-xl border ${
-            darkMode ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-gray-200'
-          }`}>
-            <div className={`text-4xl font-bold mb-2 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
-              $10,000+
-            </div>
-            <div className={`text-lg font-semibold mb-2 ${
-              darkMode ? 'text-white' : 'text-gray-900'
-            }`}>
-              Raised for Charity
-            </div>
-            <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Through VSBA initiatives
-            </div>
-          </div>
-
-          <div className={`text-center p-6 rounded-xl border ${
-            darkMode ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-gray-200'
-          }`}>
-            <div className={`text-4xl font-bold mb-2 ${darkMode ? 'text-purple-400' : 'text-purple-600'}`}>
-              2200
-            </div>
-            <div className={`text-lg font-semibold mb-2 ${
-              darkMode ? 'text-white' : 'text-gray-900'
-            }`}>
-              Chess Rating
-            </div>
-            <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Lichess Bullet & Rapid
-            </div>
-          </div>
-
-          <div className={`text-center p-6 rounded-xl border ${
-            darkMode ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-gray-200'
-          }`}>
-            <div className={`text-4xl font-bold mb-2 ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
-              4
-            </div>
-            <div className={`text-lg font-semibold mb-2 ${
-              darkMode ? 'text-white' : 'text-gray-900'
-            }`}>
-              Annual Events
-            </div>
-            <div className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Organized through VSBA
-            </div>
-          </div>
-        </motion.div>
+        
       </div>
     </section>
   );
