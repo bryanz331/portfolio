@@ -19,7 +19,6 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
   });
 
   const vsbaGalleryRef = useRef<HTMLDivElement>(null);
-  const [galleryActive, setGalleryActive] = useState(false);
   useEffect(() => {
     if (!vsbaGalleryRef.current) return;
     const handleWheel = (e: WheelEvent) => {
