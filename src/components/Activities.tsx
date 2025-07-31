@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import vsbaGroup1 from '../images/vsba-group-photo-1.jpg';
@@ -19,7 +19,7 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
   });
 
   const vsbaGalleryRef = useRef<HTMLDivElement>(null);
-  const [galleryActive, setGalleryActive] = useState(false);
+  const galleryActive = false;
   useEffect(() => {
     if (!vsbaGalleryRef.current) return;
     const handleWheel = (e: WheelEvent) => {
