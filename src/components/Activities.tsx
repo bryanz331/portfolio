@@ -19,6 +19,7 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
   });
 
   const vsbaGalleryRef = useRef<HTMLDivElement>(null);
+  const [galleryActive, setGalleryActive] = useState(false);
   useEffect(() => {
     if (!vsbaGalleryRef.current) return;
     const handleWheel = (e: WheelEvent) => {
@@ -185,7 +186,7 @@ const Activities: React.FC<ActivitiesProps> = ({ darkMode }) => {
               >
                 <div className="flex flex-col gap-10 items-start">
                   {/* VSBA Text Content */}
-                  <div className="w-full max-w-3xl text-left">
+                  <div className="w-full text-left">
                     <div className="flex items-center gap-4 mb-3 text-left">
                       <div className="text-5xl">{activity.icon}</div>
                       <h3 className="text-3xl font-extrabold text-blue-700 dark:text-blue-200" style={{ fontFamily: 'Raleway, Arial, sans-serif', letterSpacing: '0.5px', textAlign: 'left' }}>{activity.title}</h3>
